@@ -4,7 +4,7 @@
 }
 
 a {
-    color: rgb(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
 }
 
@@ -19,20 +19,26 @@ h4 {
 body {
     height: 100vh;
     color: white;
-    background-color: rgb(255, 101, 87);
+    background-color: #734896;
+    /* background-color: #DF6262; */
+    /* background-color: #DF7362; */
+    /* background-color: rgb(255, 101, 87); */
 }
 
 .navbar-style {
     display: flex;
     flex-direction: row;
     color: #1EB980;
-    width: 100wh;
+    width: 100vw;
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
     font-family: 'JetBrains', monospace;
     font-size: 1.2rem;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-    background-color: rgb(255, 101, 87)
+    /* background-color: rgb(255, 101, 87) */
+    /* background-color: #DF7362; */
+    /* background-color: #DF6262; */
+    background-color: #734896;
 }
 
 #prof_list {
@@ -41,3 +47,40 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login_form {
+    width: 248px;
+    display: inline-block;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.input-group {
+    display: flex;
+    /*justify-content: center;*/
+    align-items: center;
+    /*justify-content: space-between;*/
+
+    font-size: 1.2rem;
+}
+
+.form-input {
+    border: none;
+    border-radius: 5px;
+}
+
+.checkbox {
+    padding-left: 15px;
+}
+
+.checkbox-group {
+    align-items: center;
+}
+
