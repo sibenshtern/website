@@ -5,8 +5,8 @@ from flask import render_template
 app = Flask(__name__)
 
 
-@app.route('/<str:title>')
-@app.route('/index/<str:title>')
+@app.route('/<string:title>')
+@app.route('/index/<string:title>')
 def index(title):
     return render_template("base.html", title=title)
 
