@@ -1,18 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: rgb(255, 255, 255, 0.9);
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgb(255, 255, 255);
+}
+
+h4 {
+    color: rgba(255, 255, 255, 0.7)
+}
+
 body {
-    background: linear-gradient(145deg, coral, lightcoral);
     height: 100vh;
     color: white;
+    background-color: rgb(255, 101, 87);
 }
 
 .navbar-style {
-    width: 100vw;
-    background: linear-gradient(145deg, coral, lightcoral);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: row;
+    color: #1EB980;
+    width: 100wh;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
     font-family: 'JetBrains', monospace;
-}
-
-#standart-line {
-    color: rgba(255, 255, 255, 0.64);
+    font-size: 1.2rem;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    background-color: rgb(255, 101, 87)
 }
 
 #prof_list {
