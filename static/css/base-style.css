@@ -1,0 +1,12 @@
+body {
+    background: linear-gradient(145deg, coral, lightcoral);
+    height: 100vh;
+    color: white;
+    text-align: center;
+}
+
+.navbar-style {
+    width: 100vw;
+    background: linear-gradient(145deg, coral, lightcoral);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
