@@ -13,7 +13,8 @@ def index(title):
 
 @app.route('/list_prof/<list_type>')
 def show_professions_list(list_type):
-    return render_template("professions_list.html", list_type=list_type)
+    return render_template("professions_list.html", list_type=list_type,
+                           title="Список профессий")
 
 
 if __name__ == '__main__':
