@@ -1,27 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Авторизация</h1>
-    <form class="login_form" action="" method="post" novalidate>
+    <img src="{{url_for('static', filename='images/MARS-2-7.png')}}" alt="Эмблема"><h1>Авторизация</h1>
+    <form class="main_container" action="" method="post" novalidate>
         {{form.hidden_tag()}}
-        <p class="input-group">
-            {{form.username.label}}
-            {{form.username(class="form-input")}}
-            {% for error in form.username.errors %}
-                <div class="alert alert-danger" role="alert">
-                    {{error}}
-                </div>
-            {% endfor %}
-        </p>
-        <p class="input-group">
-            {{form.password.label}}
-            {{form.password(class="form-input", type="password")}}
-            {% for error in form.password.errors %}
-                <div class="alert alert-danger" role="alert">
-                    {{error}}
-                </div>
-            {% endfor %}
-        </p>
-        <p class="checkbox-group">{{form.remember_me()}}{{form.remember_me.label(class="checkbox")}}</p>
-        <p>{{form.submit(type="submit", class="btn btn-primary")}}</p>
+        {% for field in form if field.name != "submit" and field.name != "csrf_token" %}
+
+            {% if "password" in field.name %}
+            <p class="input-group">
+                {{field.label}}
+                {{field(class="form-input", type="password")}}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{error}}
+                    </div>
+                {% endfor %}
+            </p>
+            {% else %}
+            <p class="input-group">
+                {{field.label}}
+                {{field(class="form-input")}}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{error}}
+                    </div>
+                {% endfor %}
+            </p>
+            {% endif %}
+        {% endfor %}
+        <p class="input-group">{{form.submit(type="submit", class="btn btn-primary")}}</p>
     </form>
 {% endblock %}
