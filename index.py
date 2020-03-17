@@ -4,6 +4,8 @@ from flask import render_template, redirect
 from data.loginform import LoginForm
 from data.registerform import RegisterForm
 
+from data import database_session
+from data.users import User
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "veryverysecretkeywhichyoucantbreak"
@@ -42,6 +44,32 @@ def register():
     form = RegisterForm()
 
     if form.validate_on_submit():
+        login = form['login'].data
+        surname = form['surname'].data
+        name = form['name'].data
+        age = form['age'].data
+        position = form['position'].data
+        speciality = form['speciality'].data
+        address = form['address'].data
+        email = form['email'].data
+        password = form['password'].data
+
+        session = database_session.create_session()
+
+        user = User()
+        user.login = login
+        user.surname = surname
+        user.name = name
+        user.age = age
+        user.position = position
+        user.speciality = speciality
+        user.address = address
+        user.email = email
+        user.hashed_password = password
+        session.add(user)
+
+        session.commit()
+
         return redirect('/success')
 
     return render_template("register.html", title="Регистрация", form=form)
@@ -63,7 +91,10 @@ def answer():
     return render_template("answer.html", **params)
 
 
-if __name__ == '__main__':
+def run_app():
+    database_session.global_init('db\\database.sqlite')
     app.run(host="localhost", port=8080, debug=True)
 
 
+if __name__ == '__main__':
+    run_app()

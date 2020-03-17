@@ -3,6 +3,16 @@
     padding: 0;
 }
 
+html, body {
+    width: 100%;
+    height: 100%;
+
+    color: white;
+    background-color: #734896;
+
+    position: relative;
+}
+
 a {
     color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
@@ -12,63 +22,58 @@ a:hover {
     color: rgb(255, 255, 255);
 }
 
+h1 { font-size: 1.25rem; }
+
+@media (min-width: 320px) {
+  h1 { font-size: calc( 3.125vw + .625rem ); }
+}
+
+@media (min-width: 960px) {
+  h1 { font-size: 2.5rem; }
+}
+
 h4 {
     color: rgba(255, 255, 255, 0.7)
 }
 
-body {
-    height: 100vh;
-    color: white;
-    background-color: #734896;
-    /* background-color: #DF6262; */
-    /* background-color: #DF7362; */
-    /* background-color: rgb(255, 101, 87); */
+header {
+    width: 100%;
+
 }
 
 .navbar-style {
     display: flex;
-    flex-direction: row;
-    color: #1EB980;
-    width: 100vw;
+    flex-direction: column;
+
+    width: 100%;
+
+    color: inherit;
+    background-color: inherit;
+
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
     font-family: 'JetBrains', monospace;
-    font-size: 1.2rem;
+    font-size: 50%;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-    /* background-color: rgb(255, 101, 87) */
-    /* background-color: #DF7362; */
-    /* background-color: #DF6262; */
-    background-color: #734896;
+
 }
 
 #prof_list {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    display: inherit;
+    flex-direction: inherit;
+    justify-content: inherit;
+    align-items: inherit;
 }
 
 .main {
-    display: flex;
+    display: inherit;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 1.2rem;
-}
 
-.main_container {
-    width: inherit;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.input-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     font-size: 1.2rem;
+    text-align: center;
+
 }
 
 .form-input {
@@ -77,11 +82,20 @@ body {
     width: 50%;
 }
 
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
 .checkbox {
     padding-left: 15px;
 }
 
 .checkbox-group {
-    align-items: center;
+    align-items: inherit;
 }
+
+
 
