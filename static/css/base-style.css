@@ -58,8 +58,9 @@ body {
 
 .main_container {
     width: inherit;
-    display: inline-block;
-    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
 }
 

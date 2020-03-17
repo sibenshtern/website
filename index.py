@@ -2,6 +2,7 @@ from flask import Flask
 from flask import render_template, redirect
 
 from data.loginform import LoginForm
+from data.registerform import RegisterForm
 
 
 app = Flask(__name__)
@@ -34,6 +35,16 @@ def login():
         return redirect('/success')
 
     return render_template("login.html", title="Авторизация", form=form)
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+
+    if form.validate_on_submit():
+        return redirect('/success')
+
+    return render_template("register.html", title="Регистрация", form=form)
 
 
 @app.route('/answer')
