@@ -1,3 +1,4 @@
 *.txt
 static/css/old-style.css
 static/css/old.css
+data/__pycache__
