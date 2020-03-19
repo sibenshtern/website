@@ -93,7 +93,7 @@ def answer():
 
 def run_app():
     database_session.global_init('db\\database.sqlite')
-    app.run(host="localhost", port=8080, debug=True)
+    app.run(host="0.0.0.0", port=5000)
 
 
 if __name__ == '__main__':
