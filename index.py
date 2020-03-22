@@ -4,7 +4,6 @@ from flask import render_template, redirect
 from data.loginform import LoginForm
 from data.registerform import RegisterForm
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "veryverysecretkeywhichyoucantbreak"
 
@@ -24,7 +23,16 @@ def index_too():
 @app.route('/list_prof/<list_type>')
 def show_professions_list(list_type):
     return render_template("professions_list.html", list_type=list_type,
-                           title="Список профессий")
+                           title="Список профессий", professions=[
+                            "Инженер - исследователь", "Пилот",
+                            "Строитель", "Экзобиолог", "Врач",
+                            "Инженер по терраформированию", "Климатолог",
+                            "Специалист по радиационной защите",
+                            "Астрогеолог", "Гляциолог",
+                            "Инженер жизнеобеспечения", "Метеоролог",
+                            "Оператор марсохода", "Киберинженер", "Штурман",
+                            "Пилот дронов"
+                            ])
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -65,5 +73,3 @@ def answer():
 
 if __name__ == '__main__':
     app.run(host="localhost", port=8080, debug=True)
-
-
