@@ -9,7 +9,7 @@
         {% if "password" in field.name %}
         <p class="input-group">
             {{ field.label }}
-            {{ field(class="form-input", type="password") }}
+            {{ field(class="form-control", type="password") }}
             {% for error in field.errors %}
             <div class="alert alert-danger form-input">
                 {{ error }}
@@ -19,7 +19,7 @@
         {% else %}
         <p class="input-group">
             {{ field.label }}
-            {{ field(class="form-input") }}
+            {{ field(class="form-control") }}
             {% for error in field.errors %}
             <div class="alert alert-danger form-input">
                 {{ error }}

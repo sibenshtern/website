@@ -12,87 +12,83 @@
 html, body {
     width: 100%;
     height: 100%;
-
-    color: white;
-    background-color: #734896;
-
     position: relative;
 }
 
-a {
-    color: rgba(255, 255, 255, 0.9);
-    text-decoration: none;
-}
+/*a {*/
+/*    color: rgba(255, 255, 255, 0.9);*/
+/*    text-decoration: none;*/
+/*}*/
 
-a:hover {
-    color: rgb(255, 255, 255);
-}
+/*a:hover {*/
+/*    color: rgb(255, 255, 255);*/
+/*}*/
 
-h1 { font-size: 1.25rem; }
+/*h1 { font-size: 1.25rem; }*/
 
-@media (min-width: 320px) {
-  h1 { font-size: calc( 3.125vw + .625rem ); }
-}
+/*@media (min-width: 320px) {*/
+/*  h1 { font-size: calc( 3.125vw + .625rem ); }*/
+/*}*/
 
-@media (min-width: 960px) {
-  h1 { font-size: 2.5rem; }
-}
+/*@media (min-width: 960px) {*/
+/*  h1 { font-size: 2.5rem; }*/
+/*}*/
 
-h4 {
-    color: rgba(255, 255, 255, 0.7)
-}
+/*h4 {*/
+/*    color: rgba(255, 255, 255, 0.7)*/
+/*}*/
 
-header {
-    width: 100%;
+/*header {*/
+/*    width: 100%;*/
 
-}
+/*}*/
 
-.navbar-style {
-    display: flex;
-    flex-direction: column;
+/*.navbar-style {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
 
-    width: 100%;
+/*    width: 100%;*/
 
-    color: inherit;
-    background-color: inherit;
+/*    color: inherit;*/
+/*    background-color: inherit;*/
 
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
-    font-family: 'JetBrains', monospace;
-    font-size: 50%;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
+/*    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);*/
+/*    font-family: 'JetBrains', monospace;*/
+/*    font-size: 50%;*/
+/*    border-bottom-left-radius: 15px;*/
+/*    border-bottom-right-radius: 15px;*/
 
-}
+/*}*/
 
-#prof_list {
-    display: inherit;
-    flex-direction: inherit;
-    justify-content: inherit;
-    align-items: inherit;
-}
+/*#prof_list {*/
+/*    display: inherit;*/
+/*    flex-direction: inherit;*/
+/*    justify-content: inherit;*/
+/*    align-items: inherit;*/
+/*}*/
 
-.main {
-    display: inherit;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+/*.main {*/
+/*    display: inherit;*/
+/*    flex-direction: column;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
 
-    font-size: 1.2rem;
-    text-align: center;
+/*    font-size: 1.2rem;*/
+/*    text-align: center;*/
 
-}
+/*}*/
 
-.form-input {
-    border: none;
-    border-radius: 5px;
-    width: 50%;
-}
+/*.form-input {*/
+/*    border: none;*/
+/*    border-radius: 5px;*/
+/*    width: 50%;*/
+/*}*/
 
-.input-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+/*.input-group {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*}*/
 
 
 .checkbox {

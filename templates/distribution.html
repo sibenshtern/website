@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container-fluid d-flex flex-column justify-content-center" style="text-align: center">
+        <h2>Размещение по каютам</h2>
+        {% for user in users %}
+            {% if loop.index == 1 %}
+                <div>{{ user }} - Каюта № {{ loop.index }} - капитан корабля</div>
+            {% else %}
+                <div>{{ user }} - Каюта № {{ loop.index }}</div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}
