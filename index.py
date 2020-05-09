@@ -1,5 +1,7 @@
+import os
+
 from flask import Flask
-from flask import render_template, redirect
+from flask import render_template, redirect, url_for
 
 from data.loginform import LoginForm
 from data.registerform import RegisterForm
@@ -8,7 +10,7 @@ from data import database_session
 from data.users import User
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "veryverysecretkeywhichyoucantbreak"
+app.config['SECRET_KEY'] = os.urandom(24)
 
 
 @app.route('/<string:title>')
@@ -99,9 +101,17 @@ def answer():
     }
     return render_template("answer.html", **params)
 
+
+@app.route('/distribution')
+def distribution_page():
+    users = ['Ридли Скотт', 'Энди Уир', 'Марк Уотни', 'Венката Капур']
+    return render_template('distribution.html', users=users)
+
+
 def run_app():
-    database_session.global_init('db\\database.sqlite')
-    app.run(host="0.0.0.0", port=5000)
+    database_session.global_init('db/database.sqlite')
+    port = os.environ.get('PORT', 5000)
+    app.run(host="0.0.0.0", port=port)
 
 
 if __name__ == '__main__':
