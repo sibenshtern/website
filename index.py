@@ -1,13 +1,15 @@
 import os
 
 from flask import Flask
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect
 
 from data.loginform import LoginForm
 from data.registerform import RegisterForm
 
 from data import database_session
 from data.users import User
+from data.jobs import Jobs
+from data.departments import Department
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
@@ -16,7 +18,16 @@ app.config['SECRET_KEY'] = os.urandom(24)
 @app.route('/<string:title>')
 @app.route('/index/<string:title>')
 def index(title):
-    return render_template("base.html", title=title)
+    session = database_session.create_session()
+    jobs = session.query(Jobs).all()
+
+    names = {
+        user.id: ' '.join([user.surname, user.name])
+        for user in session.query(User).all()
+    }
+
+    params = {"title": title, "jobs": jobs, "names": names}
+    return render_template("jobs_list.html", **params)
 
 
 @app.route('/')

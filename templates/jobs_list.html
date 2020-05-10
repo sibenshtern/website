@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="d-flex flex-column">
+        <div class="title"><h2>Журнал работ</h2></div>
+        <div class="d-flex flex-column justify-content-center">
+            {% for job in jobs %}
+                <h5>Работа # {{ job.id }}</h5>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Название работы</th>
+                            <th scope="col">Лидер</th>
+                            <th scope="col">Длительность</th>
+                            <th scope="col">Команда (список id)</th>
+                            <th scope="col">Завершена</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ job.job }}</td>
+                            <td>{{ names[job.team_leader] }}</td>
+                            <td>{{ job.work_size }}</td>
+                            <td>{{ job.collaborators }}</td>
+                            {% if job.is_finished %}
+                                <td class="table-success">Is finished</td>
+                            {% else %}
+                                <td class="table-danger">Is not finished</td>
+                            {% endif %}
+                        </tr>
+                    </tbody>
+                </table>
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}
