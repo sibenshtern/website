@@ -1,9 +1,10 @@
 import os
 
 from flask import Flask
-from flask import render_template, redirect
+from flask import render_template, redirect, abort
 
 from flask_login import LoginManager, login_user, login_required, logout_user
+from flask_login import current_user
 
 from data.loginform import LoginForm
 from data.registerform import RegisterForm
@@ -34,7 +35,6 @@ def logout():
 
 
 @app.route('/')
-@login_required
 def job_list():
     session = database_session.create_session()
     jobs = session.query(Jobs).all()
@@ -53,8 +53,9 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         session = database_session.create_session()
-        user = session.query(User).filter(User.email == form.email.data).first()
-        print(form.password.data)
+        user = session.query(User).filter(
+            User.email == form.email.data).first()
+
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect("/")
@@ -107,6 +108,7 @@ def add_job():
 
         job = Jobs()
         job.team_leader = form.team_leader.data
+        job.job = form.job.data
         job.work_size = form.work_size.data
         job.collaborators = form.collaborators.data
         job.is_finished = form.is_finished.data
@@ -121,6 +123,56 @@ def add_job():
         "form": form
     }
     return render_template("add_job.html", **params)
+
+
+@app.route('/edit_job/<int:job_id>', methods=['GET', 'POST'])
+@login_required
+def edit_job(job_id):
+    form = AddJobForm()
+    session = database_session.create_session()
+    job: Jobs = session.query(Jobs).get(job_id)
+
+    if job is None:
+        abort(404)
+    elif job.team_leader != current_user.id and not current_user.id == 1:
+        abort(404)
+
+    if form.validate_on_submit():
+        job.team_leader = form.team_leader.data
+        job.job = form.job.data
+        job.work_size = form.work_size.data
+        job.collaborators = form.collaborators.data
+        job.is_finished = form.is_finished.data
+        session.commit()
+        return redirect('/')
+
+    form.team_leader.data = job.team_leader
+    form.job.data = job.job
+    form.work_size.data = job.work_size
+    form.collaborators.data = job.collaborators
+    form.is_finished.data = job.is_finished
+
+    params = {
+        "title": "Редактировать задачу", "form": form
+    }
+    return render_template("add_job.html", **params)
+
+
+@app.route('/del_job/<int:job_id>')
+@login_required
+def delete_job(job_id):
+    session = database_session.create_session()
+    job: Jobs = session.query(Jobs).get(job_id)
+
+    if job is None:
+        abort(404)
+    elif job.team_leader != current_user.id and not current_user.id == 1:
+        abort(404)
+    else:
+        session.delete(job)
+        session.commit()
+
+    return redirect('/')
 
 
 def run_app():
