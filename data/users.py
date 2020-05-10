@@ -1,9 +1,11 @@
 import datetime
 
+from werkzeug.security import generate_password_hash, check_password_hash
+
 import sqlalchemy
+from sqlalchemy import orm
 
 from .database_session import SqlAlchemyBase
-from sqlalchemy import orm
 
 
 class User(SqlAlchemyBase):
@@ -11,7 +13,6 @@ class User(SqlAlchemyBase):
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True,
                            autoincrement=True)
-    login = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     surname = sqlalchemy.Column(sqlalchemy.String)
     name = sqlalchemy.Column(sqlalchemy.String)
     age = sqlalchemy.Column(sqlalchemy.Integer)
@@ -23,6 +24,14 @@ class User(SqlAlchemyBase):
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                       default=datetime.datetime.now)
 
+    jobs = orm.relation("Jobs")
+    # departments = orm.relation("Department", back_populates="user")
+
     def __repr__(self):
         return str(self.id) + " " + self.name + ' ' + self.email
 
+    def set_password(self, password):
+        self.hashed_password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.hashed_password, password)
