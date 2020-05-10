@@ -7,8 +7,8 @@ from data.loginform import LoginForm
 from data.registerform import RegisterForm
 
 from data import database_session
-from data.users import User
 from data.jobs import Jobs
+from data.users import User
 from data.departments import Department
 
 app = Flask(__name__)
@@ -33,7 +33,16 @@ def index(title):
 @app.route('/')
 @app.route('/index')
 def index_too():
-    return render_template("base.html", title="Mission MARS")
+    session = database_session.create_session()
+    jobs = session.query(Jobs).all()
+
+    names = {
+        user.id: ' '.join([user.surname, user.name])
+        for user in session.query(User).all()
+    }
+
+    params = {"title": "Mission MARS", "jobs": jobs, "names": names}
+    return render_template("jobs_list.html", **params)
 
 
 @app.route('/list_prof/<list_type>')
