@@ -5,11 +5,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 import sqlalchemy
 from sqlalchemy import orm
+from sqlalchemy_serializer import SerializerMixin
 
 from .database_session import SqlAlchemyBase
 
 
-class User(SqlAlchemyBase, UserMixin):
+class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     __tablename__ = 'users'
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True,
@@ -25,7 +26,7 @@ class User(SqlAlchemyBase, UserMixin):
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                       default=datetime.datetime.now)
 
-    jobs = orm.relation("Jobs")
+    # jobs = orm.relation("Jobs")
     # departments = orm.relation("Department", back_populates="user")
 
     def __repr__(self):

@@ -9,6 +9,7 @@ from flask_login import current_user
 from data.loginform import LoginForm
 from data.registerform import RegisterForm
 from data.add_job_form import AddJobForm
+from data.add_department_form import AddDepartmentForm
 
 from data import database_session
 from data.jobs import Jobs
@@ -46,6 +47,22 @@ def job_list():
 
     params = {"title": "Mission MARS", "jobs": jobs, "names": names}
     return render_template("jobs_list.html", **params)
+
+
+@app.route('/departments')
+def show_departments():
+    session = database_session.create_session()
+    departments = session.query(Department).all()
+
+    names = {
+        user.id: ' '.join([user.surname, user.name])
+        for user in session.query(User).all()
+    }
+
+    params = {
+        'title': "Департаменты", 'names': names, 'departments': departments
+    }
+    return render_template('departments.html', **params)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -125,6 +142,31 @@ def add_job():
     return render_template("add_job.html", **params)
 
 
+@app.route('/add_department', methods=['GET', 'POST'])
+def add_department_page():
+    form = AddDepartmentForm()
+
+    if form.validate_on_submit():
+        session = database_session.create_session()
+
+        department = Department()
+        department.title = form.title.data
+        department.chief = form.chief.data
+        department.members = form.members.data
+        department.email = form.email.data
+
+        session.add(department)
+        session.commit()
+
+        return redirect('/departments')
+
+    params = {
+        "title": "Добавить департамент",
+        "form": form
+    }
+    return render_template("add_department.html", **params)
+
+
 @app.route('/edit_job/<int:job_id>', methods=['GET', 'POST'])
 @login_required
 def edit_job(job_id):
@@ -158,6 +200,37 @@ def edit_job(job_id):
     return render_template("add_job.html", **params)
 
 
+@app.route('/edit_department/<int:department_id>', methods=['GET', 'POST'])
+@login_required
+def edit_department(department_id):
+    form = AddDepartmentForm()
+    session = database_session.create_session()
+    department: Department = session.query(Department).get(department_id)
+
+    if department is None:
+        abort(404)
+    elif department.chief != current_user.id and not current_user.id == 1:
+        abort(404)
+
+    if form.validate_on_submit():
+        department.chief = form.chief.data
+        department.title = form.title.data
+        department.members = form.members.data
+        department.email = form.email.data
+        session.commit()
+        return redirect('/departments')
+
+    form.chief.data = department.chief
+    form.title.data = department.title
+    form.members.data = department.members
+    form.email.data = department.email
+
+    params = {
+        "title": "Редактировать департамент", "form": form
+    }
+    return render_template("add_department.html", **params)
+
+
 @app.route('/del_job/<int:job_id>')
 @login_required
 def delete_job(job_id):
@@ -175,10 +248,28 @@ def delete_job(job_id):
     return redirect('/')
 
 
+@app.route('/del_department/<int:department_id>')
+@login_required
+def delete_department(department_id):
+    session = database_session.create_session()
+    department: Department = session.query(Department).get(department_id)
+
+    if department is None:
+        abort(404)
+    elif department.chief != current_user.id and not current_user.id == 1:
+        abort(404)
+    else:
+        session.delete(department)
+        session.commit()
+
+    return redirect('/departments')
+
+
+
 def run_app():
     database_session.global_init('db/database.sqlite')
     port = os.environ.get('PORT', 5000)
-    app.run(host="0.0.0.0", port=port, debug=True)
+    app.run(host="0.0.0.0", port=port)
 
 
 if __name__ == '__main__':
