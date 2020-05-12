@@ -12,7 +12,7 @@ json = {
 }
 
 print(requests.get("http://127.0.0.1:5000/api/v2/users/1").json())
-print(requests.get("http://127.0.0.1:5000/api/v2/users/123").json())
+print(requests.get("http://127.0.0.1:5000/api/v2/users/dffdfs").json())
 
 requests.delete("http://127.0.0.1:5000/api/v2/users/1")
 
