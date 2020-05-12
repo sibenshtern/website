@@ -19,6 +19,9 @@ class Jobs(SqlAlchemyBase, SerializerMixin):
     is_finished = sqlalchemy.Column(sqlalchemy.Boolean)
 
     user = orm.relation("User")
+    categories = orm.relation("Category",
+                              secondary="association",
+                              backref="jobs")
 
     def __repr__(self):
         return " ".join([self.team_leader, self.job, self.work_size,

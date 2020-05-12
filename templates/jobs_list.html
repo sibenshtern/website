@@ -14,6 +14,7 @@
                             <th scope="col">Лидер</th>
                             <th scope="col">Длительность</th>
                             <th scope="col">Команда (список id)</th>
+                            <th scope="col">Категории</th>
                             <th scope="col">Завершена</th>
                         </tr>
                     </thead>
@@ -23,6 +24,7 @@
                             <td>{{ names[job.team_leader] }}</td>
                             <td>{{ job.work_size }}</td>
                             <td>{{ job.collaborators }}</td>
+                            <td>{{ job.categories }}</td>
                             {% if job.is_finished %}
                                 <td class="table-success">Is finished</td>
                             {% else %}
