@@ -8,6 +8,8 @@ from flask import render_template, redirect, abort, jsonify, url_for
 from flask_login import LoginManager, login_user, login_required, logout_user
 from flask_login import current_user
 
+from flask_restful import Api
+
 from data.loginform import LoginForm
 from data.registerform import RegisterForm
 from data.add_job_form import AddJobForm
@@ -18,9 +20,8 @@ from data.jobs import Jobs
 from data.users import User
 from data.departments import Department
 
-from user_api import blueprint as user_blueprint
+from users_resource import UsersResource, UsersListResource
 from jobs_api import blueprint as jobs_blueprint
-
 
 ALLOWED_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp', '.bmp'}
 UPLOAD_FOLDER = 'static/carousel-images'
@@ -29,7 +30,10 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-app.register_blueprint(user_blueprint, url_prefix='/api')
+api = Api(app)
+api.add_resource(UsersResource, '/api/v2/users/<int:user_id>')
+api.add_resource(UsersListResource, '/api/v2/users')
+
 app.register_blueprint(jobs_blueprint, url_prefix='/api')
 
 login_manager = LoginManager(app)
