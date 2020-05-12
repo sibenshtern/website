@@ -53,7 +53,6 @@ def add_job():
         return jsonify({'error': 'ID already exists'})
     else:
         job = Jobs(
-            id=request.json['id'],
             team_leader=request.json['team_leader'],
             work_size=request.json['work_size'],
             collaborators=request.json['collaborators'],
@@ -82,14 +81,14 @@ def put_job(job_id):
     if session.query(Jobs).get(job_id) is None:
         return jsonify({'error': 'Invalid ID'})
     elif all(key in request.json for key in [
-                'id', 'team_leader', 'work_size', 'collaborators',
+                'team_leader', 'job', 'work_size', 'collaborators',
                 'is_finished'
             ]):
         job = session.query(Jobs).get(job_id)
-        job.id = request.json['id'],
-        job.team_leader = request.json['team_leader'],
-        job.work_size = request.json['work_size'],
-        job.collaborators = request.json['collaborators'],
+        job.team_leader = request.json['team_leader']
+        job.work_size = request.json['work_size']
+        job.job = request.json['job']
+        job.collaborators = request.json['collaborators']
         job.is_finished = request.json['is_finished']
 
         session.commit()
