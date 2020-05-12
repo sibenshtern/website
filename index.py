@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask
-from flask import render_template, redirect, abort
+from flask import render_template, redirect, abort, jsonify
 
 from flask_login import LoginManager, login_user, login_required, logout_user
 from flask_login import current_user
@@ -12,6 +12,7 @@ from data.add_job_form import AddJobForm
 from data.add_department_form import AddDepartmentForm
 
 from data import database_session
+from data.categories import Category
 from data.jobs import Jobs
 from data.users import User
 from data.departments import Department
@@ -264,6 +265,10 @@ def delete_department(department_id):
 
     return redirect('/departments')
 
+
+@app.errorhandler(404)
+def error_handler_404():
+    return jsonify({'message': 'Error', 'status_code': 404})
 
 
 def run_app():
