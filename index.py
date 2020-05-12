@@ -1,7 +1,9 @@
 import os
 
+import requests
+
 from flask import Flask
-from flask import render_template, redirect, abort, jsonify
+from flask import render_template, redirect, abort, jsonify, url_for
 
 from flask_login import LoginManager, login_user, login_required, logout_user
 from flask_login import current_user
@@ -276,6 +278,53 @@ def delete_department(department_id):
     return redirect('/departments')
 
 
+@app.route('/users_show/<int:user_id>')
+def shows_user(user_id):
+    def get_map_url(toponym, zoom):
+        request_params = {
+            'll': ','.join(toponym['Point']['pos'].split()),
+            'l': 'sat',
+            'z': zoom,
+            'size': "450,450"
+        }
+
+        response = requests.get(
+            "http://static-maps.yandex.ru/1.x/", params=request_params
+        )
+        if not response:
+            raise Exception(f'Request failed. {response.url}')
+
+        return response.url
+
+    def get_toponym_by_geocoder(geocode: str) -> dict:
+        request_params = {
+            "apikey": "40d1649f-0493-4b70-98ba-98533de7710b",
+            "geocode": geocode,
+            "format": "json"
+        }
+
+        response = requests.get(
+            "http://geocode-maps.yandex.ru/1.x/",
+            request_params)
+        if not response:
+            raise Exception(
+                f'Response failed. Status code: {response.status_code}'
+            )
+        else:
+            json_response = response.json()
+            toponym = json_response['response']['GeoObjectCollection'][
+                'featureMember'][0]['GeoObject']
+            return toponym
+
+    user: dict = requests.get(url_for(f'/users_show/{user_id}')).json()
+
+    if user is None:
+        abort(404)
+
+    map_url = get_map_url(get_toponym_by_geocoder(user['city_from']), 14)
+    return render_template("users_show.html", user=user, map_url=map_url)
+
+
 @app.errorhandler(404)
 def error_handler_404(error):
     return jsonify({'message': 'Error', 'status_code': 404})
@@ -284,7 +333,7 @@ def error_handler_404(error):
 def run_app():
     database_session.global_init('db/database.sqlite')
     port = os.environ.get('PORT', 5000)
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=port, debug=True)
 
 
 if __name__ == '__main__':

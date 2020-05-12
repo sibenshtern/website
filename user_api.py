@@ -5,6 +5,11 @@ from data.users import User
 
 blueprint = Blueprint('users_api', __name__, template_folder='templates')
 
+USER_PARAMETERS = [
+    'id', 'name', 'surname', 'age', 'position', 'speciality', 'address',
+    'email', 'password', 'city_from'
+]
+
 
 @blueprint.route('/users')
 def get_users():
@@ -29,10 +34,7 @@ def add_user():
     session = database_session.create_session()
     if not request.json:
         return jsonify({'error': 'Empty request'})
-    elif not all(key in request.json for key in [
-                'id', 'name', 'surname', 'age', 'position', 'speciality',
-                'address', 'email', 'password'
-            ]):
+    elif not all(key in request.json for key in USER_PARAMETERS):
         return jsonify({'error': 'Bad request'})
     elif session.query(User).get(request.json['id']) is not None:
         return jsonify({'error': 'ID already exists'})
@@ -45,7 +47,8 @@ def add_user():
             position=request.json['position'],
             speciality=request.json['speciality'],
             address=request.json['address'],
-            email=request.json['email']
+            email=request.json['email'],
+            city_from=request.json['city_from']
         )
         user.set_password(request.json['password'])
         session.add(user)
@@ -70,10 +73,7 @@ def put_user(user_id):
     session = database_session.create_session()
     if session.query(User).get(user_id) is None:
         return jsonify({'error': 'Invalid ID'})
-    elif all(key in request.json for key in [
-                'name', 'surname', 'age', 'position', 'speciality', 'address',
-                'email', 'password'
-            ]):
+    elif all(key in request.json for key in USER_PARAMETERS):
         user = session.query(User).get(user_id)
 
         user.name = request.json['name']
@@ -83,7 +83,8 @@ def put_user(user_id):
         user.speciality = request.json['speciality']
         user.address = request.json['address']
         user.email = request.json['email']
-        user.hashed_password = request.json['hashed_password']
+        user.set_password(request.json['password'])
+        user.city_from = request.json['city_from']
         session.commit()
         return jsonify({'success': 'OK'})
 

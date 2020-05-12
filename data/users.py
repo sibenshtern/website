@@ -25,6 +25,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     hashed_password = sqlalchemy.Column(sqlalchemy.String)
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                       default=datetime.datetime.now)
+    city_from = sqlalchemy.Column(sqlalchemy.String)
 
     def __repr__(self):
         return str(self.id) + " " + self.name + ' ' + self.email
