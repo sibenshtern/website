@@ -16,7 +16,8 @@ from data.jobs import Jobs
 from data.users import User
 from data.departments import Department
 
-from user_api import blueprint as user_api_blueprint
+from user_api import blueprint as user_blueprint
+from jobs_api import blueprint as jobs_blueprint
 
 
 ALLOWED_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp', '.bmp'}
@@ -26,7 +27,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-app.register_blueprint(user_api_blueprint, url_prefix='/api')
+app.register_blueprint(user_blueprint, url_prefix='/api')
+app.register_blueprint(jobs_blueprint, url_prefix='/api')
 
 login_manager = LoginManager(app)
 
@@ -272,32 +274,6 @@ def delete_department(department_id):
         session.commit()
 
     return redirect('/departments')
-
-
-# def allowed_file(filename):
-#     return '.' in filename and \
-#            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-#
-#
-# @app.route('/carousel', methods=['GET', 'POST'])
-# def upload_file():
-#     if request.method == 'POST':
-#         if 'file' not in request.files:
-#             flash('No file part')
-#             return redirect('/carousel')
-#         file = request.files['file']
-#         if file.filename == '':
-#             flash('No selected file')
-#             return redirect('/carousel')
-#         if file and allowed_file(file.filename):
-#             filename = file.filename
-#             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-#             return redirect('/carousel')
-#
-#     return render_template(
-#         'other/carousel.html', images=os.listdir('static/carousel-images'),
-#         len=len(os.listdir('static/carousel-images'))
-#     )
 
 
 @app.errorhandler(404)
