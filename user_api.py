@@ -35,7 +35,7 @@ def add_user():
                 'address', 'email', 'password'
             ]):
         return jsonify({'error': 'Bad request'})
-    elif session.query(User).get(request.json['id']) is None:
+    elif session.query(User).get(request.json['id']) is not None:
         return jsonify({'error': 'ID already exists'})
     else:
         user = User(
