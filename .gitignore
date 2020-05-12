@@ -3,4 +3,4 @@
 static/css/old-style.css
 static/css/old.css
 __pycache__
-tests
+tests/database
