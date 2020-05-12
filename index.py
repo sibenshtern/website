@@ -12,7 +12,7 @@ from data.add_job_form import AddJobForm
 from data.add_department_form import AddDepartmentForm
 
 from data import database_session
-from data.categories import Category
+# from data.categories import Category
 from data.jobs import Jobs
 from data.users import User
 from data.departments import Department
