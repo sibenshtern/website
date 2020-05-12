@@ -21,7 +21,7 @@ from data.users import User
 from data.departments import Department
 
 from users_resource import UsersResource, UsersListResource
-from jobs_api import blueprint as jobs_blueprint
+from jobs_resourse import JobsResource, JobsListResource
 
 ALLOWED_EXTENSIONS = {'.jpg', '.jpeg', '.png', '.webp', '.bmp'}
 UPLOAD_FOLDER = 'static/carousel-images'
@@ -33,8 +33,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 api = Api(app)
 api.add_resource(UsersResource, '/api/v2/users/<int:user_id>')
 api.add_resource(UsersListResource, '/api/v2/users')
-
-app.register_blueprint(jobs_blueprint, url_prefix='/api')
+api.add_resource(JobsResource, '/api/v2/jobs/<int:job_id>')
+api.add_resource(JobsListResource, '/api/v2/jobs')
 
 login_manager = LoginManager(app)
 
