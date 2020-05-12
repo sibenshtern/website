@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, make_response, request, abort
 
 import data.database_session as database_session
-from data.jobs import Jobs
 from data.users import User
 
 blueprint = Blueprint('users_api', __name__, template_folder='templates')

@@ -70,14 +70,14 @@ def delete_job(job_id):
     if session.query(Jobs).get(job_id) is None:
         return jsonify({'error': 'Invalid ID'})
     else:
-        user = session.query(User).get(job_id)
-        session.delete(user)
+        job = session.query(Jobs).get(job_id)
+        session.delete(job)
         session.commit()
         return jsonify({'success': 'OK'})
 
 
 @blueprint.route('/jobs/<int:job_id>', methods=['PUT'])
-def put_user(job_id):
+def put_job(job_id):
     session = database_session.create_session()
     if session.query(Jobs).get(job_id) is None:
         return jsonify({'error': 'Invalid ID'})
