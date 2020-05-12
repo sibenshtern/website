@@ -12,13 +12,17 @@ from data.add_job_form import AddJobForm
 from data.add_department_form import AddDepartmentForm
 
 from data import database_session
-# from data.categories import Category
 from data.jobs import Jobs
 from data.users import User
 from data.departments import Department
 
+from user_api import blueprint as user_api_blueprint
+
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
+
+app.register_blueprint(user_api_blueprint, url_prefix='/api')
 
 login_manager = LoginManager(app)
 
