@@ -329,6 +329,14 @@ def shows_user(user_id):
     return render_template("users_show.html", user=user, map_url=map_url)
 
 
+@app.route('/table/<string:gender>/<int:age>')
+def table(gender, age):
+    if gender not in ['female', 'male']:
+        abort(404)
+
+    return render_template('table.html', gender=gender, age=age)
+
+
 @app.errorhandler(404)
 def error_handler_404(error):
     return jsonify({'message': 'Error', 'status_code': 404})

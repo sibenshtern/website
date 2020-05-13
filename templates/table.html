@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="d-flex flex-column">
+        <h2>Оформление каюты</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Цвет стен</th>
+                    <th scope="col">Эмблема</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% if gender == "female" %}
+                        {% if age < 21 %}
+                            <td style="background: coral"></td>
+                        {% else %}
+                            <td style="background: orangered"></td>
+                        {% endif %}
+                    {% else %}
+                        {% if age < 21 %}
+                            <td style="background: lightblue"></td>
+                        {% else %}
+                            <td style="background: dodgerblue"></td>
+                        {% endif %}
+                    {% endif %}
+                    {% if age < 21 %}
+                        <td><img src="{{ url_for('static', filename='images/small.jpg') }}" alt=""></td>
+                    {% else %}
+                        <td><img src="{{ url_for('static', filename='images/big.jpg') }}" alt=""></td>
+                    {% endif %}
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
