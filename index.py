@@ -3,7 +3,7 @@ import os
 import requests
 
 from flask import Flask
-from flask import render_template, redirect, abort, jsonify, url_for
+from flask import render_template, redirect, abort, jsonify, url_for, request
 
 from flask_login import LoginManager, login_user, login_required, logout_user
 from flask_login import current_user
@@ -335,6 +335,25 @@ def table(gender, age):
         abort(404)
 
     return render_template('table.html', gender=gender, age=age)
+
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route('/carousel', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        file = request.files['file']
+        with open(os.path.join('static', f'carousel-images\\{file.filename}'),
+                  mode='wb') as f:
+            f.write(file.read())
+
+    return render_template(
+        'other/carousel.html', images=os.listdir('static/carousel-images'),
+        len=len(os.listdir('static/carousel-images'))
+    )
 
 
 @app.errorhandler(404)
