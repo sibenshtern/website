@@ -349,9 +349,16 @@ def allowed_file(filename):
 def upload_file():
     if request.method == 'POST':
         file = request.files['file']
-        with open(os.path.join('static', f'carousel-images\\{file.filename}'),
-                  mode='wb') as f:
-            f.write(file.read())
+        if len(file.filename) > 1:
+            with open(f'static\\carousel-images\\{file.filename}', mode='wb') \
+                    as f:
+                f.write(file.read())
+        else:
+            return render_template(
+                'other/carousel.html',
+                images=os.listdir('static/carousel-images'),
+                len=len(os.listdir('static/carousel-images'))
+            )
 
     return render_template(
         'other/carousel.html', images=os.listdir('static/carousel-images'),
