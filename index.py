@@ -353,12 +353,12 @@ def upload_file():
             with open(f'static\\carousel-images\\{file.filename}', mode='wb') \
                     as f:
                 f.write(file.read())
-        else:
-            return render_template(
-                'other/carousel.html',
-                images=os.listdir('static/carousel-images'),
-                len=len(os.listdir('static/carousel-images'))
-            )
+
+        return render_template(
+            'other/carousel.html',
+            images=os.listdir('static/carousel-images'),
+            len=len(os.listdir('static/carousel-images'))
+        )
 
     return render_template(
         'other/carousel.html', images=os.listdir('static/carousel-images'),
