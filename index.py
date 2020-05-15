@@ -1,4 +1,5 @@
 import os
+import random
 
 import requests
 
@@ -320,13 +321,14 @@ def shows_user(user_id):
                 'featureMember'][0]['GeoObject']
             return toponym
 
-    user: dict = requests.get(url_for(f'/users_show/{user_id}')).json()
+    user: dict = requests.get(f'http://localhost:5000/api/v2/users/{user_id}').json()
 
     if user is None:
         abort(404)
+    print(user)
 
     map_url = get_map_url(get_toponym_by_geocoder(user['city_from']), 14)
-    return render_template("users_show.html", user=user, map_url=map_url)
+    return render_template("other/users_show.html", user=user, map_url=map_url)
 
 
 @app.route('/table/<string:gender>/<int:age>')
@@ -334,7 +336,7 @@ def table(gender, age):
     if gender not in ['female', 'male']:
         abort(404)
 
-    return render_template('table.html', gender=gender, age=age)
+    return render_template('other/table.html', gender=gender, age=age)
 
 
 def allowed_file(filename):
@@ -354,6 +356,16 @@ def upload_file():
         'other/carousel.html', images=os.listdir('static/carousel-images'),
         len=len(os.listdir('static/carousel-images'))
     )
+
+
+@app.route('/member')
+def member():
+    session = database_session.create_session()
+    users = session.query(User).all()
+
+    random_user = random.choice(users)
+    random_user
+    return render_template('other/member.html', user=random_user)
 
 
 @app.errorhandler(404)
