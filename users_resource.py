@@ -13,13 +13,13 @@ parser.add_argument('position', required=True)
 parser.add_argument('speciality', required=True)
 parser.add_argument('address', required=True)
 parser.add_argument('email', required=True)
+parser.add_argument('city_from', required=True)
 parser.add_argument('password', required=True)
 
-
-def abort_if_users_not_found(user_id):
-    session = database_session.create_session()
-    if session.query(User).get(user_id) is None:
-        abort(404, message=f"User with id {user_id} not found")
+USER_ARGUMENTS = (
+    'name', 'surname', 'age', 'position', 'speciality', 'address', 'email',
+    'city_from'
+)
 
 
 class UsersResource(Resource):
@@ -31,14 +31,7 @@ class UsersResource(Resource):
         session = database_session.create_session()
         user = session.query(User).get(user_id)
 
-        return jsonify(
-            {
-                'user': user.to_dict(only=(
-                    'name', 'surname', 'age', 'position', 'speciality',
-                    'address', 'email'
-                ))
-            }
-        )
+        return jsonify({'user': user.to_dict(only=USER_ARGUMENTS)})
 
     @staticmethod
     def delete(user_id):
@@ -59,10 +52,7 @@ class UsersListResource(Resource):
         session = database_session.create_session()
         users = session.query(User).all()
         return jsonify(
-            {'users': [user.to_dict(only=(
-                'name', 'surname', 'age', 'position', 'speciality', 'address',
-                'email'
-            )) for user in users]})
+            {'users': [user.to_dict(only=USER_ARGUMENTS) for user in users]})
 
     @staticmethod
     def post():
@@ -76,7 +66,8 @@ class UsersListResource(Resource):
             position=args['position'],
             speciality=args['speciality'],
             address=args['address'],
-            email=args['email']
+            email=args['email'],
+            city_from=args['city_from']
         )
         user.set_password(args['password'])
 
@@ -84,3 +75,9 @@ class UsersListResource(Resource):
         session.commit()
 
         return jsonify({'success': 'OK'})
+
+
+def abort_if_users_not_found(user_id):
+    session = database_session.create_session()
+    if session.query(User).get(user_id) is None:
+        abort(404, message=f"User with id {user_id} not found")

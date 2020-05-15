@@ -321,11 +321,12 @@ def shows_user(user_id):
                 'featureMember'][0]['GeoObject']
             return toponym
 
-    user: dict = requests.get(f'http://localhost:5000/api/v2/users/{user_id}').json()
+    response = requests.get(f'http://localhost:5000/api/v2/users/{user_id}')
 
-    if user is None:
+    if response.status_code == 404:
         abort(404)
-    print(user)
+
+    user = response.json()['user']
 
     map_url = get_map_url(get_toponym_by_geocoder(user['city_from']), 14)
     return render_template("other/users_show.html", user=user, map_url=map_url)
@@ -364,7 +365,6 @@ def member():
     users = session.query(User).all()
 
     random_user = random.choice(users)
-    random_user
     return render_template('other/member.html', user=random_user)
 
 
